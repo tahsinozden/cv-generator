@@ -1,0 +1,292 @@
+/* =====================================================================
+   CV stylesheet
+   Europass-style layout with circular photo and official color scheme
+   ===================================================================== */
+
+:root {
+  --europass-blue: #002F87;
+  --section-bullet: #8B8B8B;
+  --accent: #002F87;
+  --accent-2: #0047AB;
+  --accent-soft: #F0F4FF;
+  --ink: #000000;
+  --muted: #666666;
+  --rule: #CCCCCC;
+  --bg: #ffffff;
+  --chip-bg: #F5F5F5;
+  --chip-border: #DDDDDD;
+}
+
+@page {
+  size: A4;
+  margin: 6mm 0 0 0;
+}
+
+@page :first {
+  margin: 0 0 0 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Helvetica Neue", "Arial", "Segoe UI", sans-serif;
+  font-size: 9.4pt;
+  line-height: 1.3;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Page frame: the @page margin is 0, so we pad via a wrapper on body.
+   md-to-pdf wraps content in <body>; we emulate a content frame here. */
+body {
+  padding: 0 14mm 14mm 14mm;
+}
+
+/* ----------------------------- Header ------------------------------- */
+
+.cv-header {
+  display: flex;
+  align-items: center;
+  gap: 6mm;
+  background: #F2F2F2;
+  color: var(--ink);
+  margin: 0 -14mm 3mm -14mm;
+  padding: 8mm 14mm 8mm 14mm;
+  border-bottom: none;
+}
+
+.cv-header-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cv-name {
+  color: var(--ink);
+  font-size: 22pt;
+  font-weight: 700;
+  margin: 0 0 3pt 0;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  border-bottom: 1pt solid var(--ink);
+  padding-bottom: 4pt;
+}
+
+.cv-photo-frame {
+  flex: 0 0 auto;
+  width: 30mm;
+  height: 30mm;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3pt solid var(--ink);
+  box-shadow: 0 1pt 3pt rgba(0, 0, 0, 0.15);
+  background: #fff;
+}
+
+.cv-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --------------------------- Headings ------------------------------- */
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  line-height: 1.2;
+  page-break-after: avoid;
+}
+
+/* Section headers (## ...) - Europass style without bullet */
+h2 {
+  font-size: 10pt;
+  margin: 6pt 0 4pt 0;
+  padding: 0 0 2pt 0;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  position: relative;
+  padding-left: 0;
+  border-bottom: 1pt solid var(--ink);
+}
+
+/* Job titles (### ...) */
+h3 {
+  font-size: 10pt;
+  margin: 5pt 0 1pt 0;
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom: 1pt solid var(--ink);
+  padding-bottom: 1pt;
+  display: inline-block;
+}
+
+h3 + p em,
+h3 + p {
+  color: var(--muted);
+}
+
+p {
+  margin: 2pt 0;
+}
+
+a {
+  color: var(--europass-blue);
+  text-decoration: underline;
+}
+
+strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+em {
+  color: var(--muted);
+  font-size: 8.4pt;
+  font-style: normal;
+}
+
+ul {
+  margin: 2pt 0 3pt 0;
+  padding-left: 15pt;
+}
+
+li {
+  margin: 0;
+}
+
+li::marker {
+  color: var(--ink);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 4pt 0;
+}
+
+/* The first <hr> after the header closes the contact block */
+.cv-header ~ hr:first-of-type {
+  margin: 4pt 0 8pt 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* --------------------------- Contact block -------------------------- */
+
+/* Contact info is now a semantic <address> inside the header text column.
+   Rendered as a clean two-column grid — no negative margins, so PDF text
+   extraction follows a natural top-to-bottom reading order. */
+.cv-contact {
+  font-style: normal;
+  margin: 6pt 0 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2pt 16pt;
+}
+
+.cv-contact-item {
+  font-size: 8.8pt;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.cv-contact-label {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.cv-contact-value {
+  color: var(--ink);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.cv-contact-value a {
+  color: var(--europass-blue);
+  text-decoration: underline;
+}
+
+/* ----------------------------- Tables ------------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4pt 0 6pt 0;
+  font-size: 8.8pt;
+  page-break-inside: avoid;
+}
+
+th, td {
+  border: 1px solid var(--rule);
+  padding: 4pt 8pt;
+  text-align: left;
+}
+
+th {
+  background: #F5F5F5;
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+tr:nth-child(even) td {
+  background: #F5F5F5;
+}
+
+tr:nth-child(odd) td {
+  background: #ffffff;
+}
+
+/* --------------------------- Stack chips ---------------------------- */
+
+/* "Stack:" paragraphs - plain text style without background */
+p > strong:only-child {
+  display: inline;
+  margin-top: 0;
+}
+
+p:has(> strong:only-child) {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 2pt 0 3pt 0;
+  font-size: 8.8pt;
+  line-height: 1.45;
+}
+
+p:has(> strong:only-child) strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ------------------------ Layout / page breaks ---------------------- */
+
+h2 {
+  break-after: avoid;
+}
+
+p, ul {
+  break-inside: avoid;
+}
+
+/* Keep the header with the following content on page 1. */
+.cv-header, .cv-header + * {
+  break-inside: avoid;
+}
+
+/* Prevent individual entries (jobs, education, etc.) from splitting across pages */
+.cv-entry {
+  display: inline-block;
+  width: 100%;
+  break-inside: avoid-page;
+  page-break-inside: avoid;
+}

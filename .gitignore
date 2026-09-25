@@ -1,0 +1,13 @@
+node_modules/
+
+# Generated CV outputs
+data/*.pdf
+data/CV*.md
+
+# Profile photo (add your own, or omit)
+data/*.jpg
+data/*.png
+!data/CV_photo.png
+
+# Test artifacts
+test/output/

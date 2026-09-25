@@ -1,0 +1,64 @@
+name: Build CV PDF
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate CV PDFs and Markdown (all variants)
+        run: npm run build
+
+      - name: Bundle Markdown variants into a single zip
+        run: |
+          cd data
+          zip CV_markdown.zip \
+            CV.md \
+            CV_v1.md \
+            CV_v2.md
+
+      - name: Upload CV PDFs and Markdown zip as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: CV
+          path: |
+            data/*.pdf
+            data/CV_markdown.zip
+
+      - name: Delete existing release and tag
+        run: |
+          gh release delete latest --yes --cleanup-tag 2>/dev/null || true
+          git push origin --delete latest 2>/dev/null || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest CV
+          files: |
+            data/CV.pdf
+            data/CV_v1.pdf
+            data/CV_v2.pdf
+            data/CV_markdown.zip
+          fail_on_unmatched_files: true

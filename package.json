@@ -1,0 +1,29 @@
+{
+  "name": "cv-generator",
+  "version": "1.0.0",
+  "description": "Generates a styled PDF CV from a Markdown source file using md-to-pdf.",
+  "type": "module",
+  "scripts": {
+    "build": "node src/generate.mjs",
+    "watch": "node src/generate.mjs --watch",
+    "start": "node src/generate.mjs",
+    "test": "node --test src/cv.test.mjs"
+  },
+  "keywords": [
+    "cv",
+    "resume",
+    "markdown",
+    "pdf",
+    "md-to-pdf"
+  ],
+  "author": "Jane Doe",
+  "license": "MIT",
+  "dependencies": {
+    "md-to-pdf": "^5.2.5",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0"
+  }
+}
